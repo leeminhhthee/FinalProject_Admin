@@ -59,12 +59,9 @@ public class OrderFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rc_order.setLayoutManager(layoutManager);
 
-//        orderAdapter = new OrderAdapter(getContext(), list);
-//        rc_order.setAdapter(orderAdapter);
-
         //Load data
-        firestore.collection("Orders").document("CLHFxlE68eXBkQEmVqafjszCqpz1").collection("Orderdetail")
-                .document("q5LzZRh08ZuhwTGwAuIa").collection("information")
+        firestore.collection("Orders").document("fBaz0m7Ictbsu3KuDZu8oA8q71q1").collection("Orderdetail")
+                .document("n76v73v8y3uUH7Tj9P5y").collection("information")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -73,8 +70,8 @@ public class OrderFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 inforModel = document.toObject(OrderInformationModel.class);
                                 // Lấy thông tin sản phẩm
-                                firestore.collection("Orders").document("CLHFxlE68eXBkQEmVqafjszCqpz1").collection("Orderdetail")
-                                        .document("q5LzZRh08ZuhwTGwAuIa").collection("products")
+                                firestore.collection("Orders").document("fBaz0m7Ictbsu3KuDZu8oA8q71q1").collection("Orderdetail")
+                                        .document("n76v73v8y3uUH7Tj9P5y").collection("products")
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override

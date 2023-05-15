@@ -91,6 +91,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.OnItemLo
                 // Handle edit action
                 Intent intent = new Intent(getContext(), AddProductActivity.class);
                 intent.putExtra("isEdit", 1);
+                intent.putExtra("product_name", proSelect);
                 startActivity(intent);
                 return true;
             case R.id.menu_delete:

@@ -36,8 +36,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderModel order = array.get(position);
-        holder.idOrder.setText("Order #");
-        holder.status.setText("Dang chuan bi hang!");
+        holder.idOrder.setText("Order of #"+order.getInformationModel().getName());
+        holder.status.setText(order.getInformationModel().getStatus()+"");
         holder.created_at.setText("Order at " + order.getInformationModel().getDate());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(

@@ -63,32 +63,18 @@
 
     <LinearLayout
         android:id="@+id/line3"
-        android:weightSum="5"
+        android:weightSum="1"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_weight="4"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:hint="Image URL"
-                android:id="@+id/addImg"
-                android:textSize="18sp"
-                android:inputType="text"
-                android:textColorHint="#486700"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/proImg"
+            android:layout_margin="10dp"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:src="@drawable/no_pictures" />
 
         <ImageView
             android:id="@+id/imgcamera"
@@ -99,6 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="80dp"/>
     </LinearLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         app:layout_constraintTop_toBottomOf="@+id/line3"

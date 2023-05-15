@@ -7,17 +7,19 @@ public class OrderInformationModel {
     String address;
     String date;
     int total;
+    String status;
 
     public OrderInformationModel() {
     }
 
-    public OrderInformationModel(String name, String phone, String email, String address, String date, int total) {
+    public OrderInformationModel(String name, String phone, String email, String address, String date, int total, String status) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.date = date;
         this.total = total;
+        this.status = status;
     }
 
     public String getName() {
@@ -67,4 +69,13 @@ public class OrderInformationModel {
     public void setTotal(int total) {
         this.total = total;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }
