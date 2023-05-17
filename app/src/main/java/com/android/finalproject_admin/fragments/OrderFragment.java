@@ -1,5 +1,7 @@
 package com.android.finalproject_admin.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +24,12 @@ import com.android.finalproject_admin.models.OrderProductModel;
 import com.android.finalproject_admin.models.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +39,6 @@ public class OrderFragment extends Fragment {
 
     RecyclerView rc_order;
     FirebaseFirestore firestore;
-    OrderInformationModel inforModel;
     List<OrderProductModel> productList;
 
     List<OrderModel> list;
@@ -51,53 +56,59 @@ public class OrderFragment extends Fragment {
 
         firestore = FirebaseFirestore.getInstance();
 
-        inforModel = new OrderInformationModel();
-        productList = new ArrayList<>();
         list = new ArrayList<>();
 
         rc_order = root.findViewById(R.id.rc_order);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rc_order.setLayoutManager(layoutManager);
 
-        //Load data
-        firestore.collection("Orders").document("fBaz0m7Ictbsu3KuDZu8oA8q71q1").collection("Orderdetail")
-                .document("n76v73v8y3uUH7Tj9P5y").collection("information")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                inforModel = document.toObject(OrderInformationModel.class);
-                                // Lấy thông tin sản phẩm
-                                firestore.collection("Orders").document("fBaz0m7Ictbsu3KuDZu8oA8q71q1").collection("Orderdetail")
-                                        .document("n76v73v8y3uUH7Tj9P5y").collection("products")
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        productList.add(document.toObject(OrderProductModel.class));
-                                                    }
-                                                    // Tạo đối tượng OrderModel và thêm vào danh sách list
-                                                    OrderModel orderModel = new OrderModel(inforModel, productList);
-                                                    list.add(orderModel);
-                                                    // Gán danh sách list cho OrderAdapter và hiển thị lên RecyclerView
-                                                    orderAdapter = new OrderAdapter(getContext(), list);
-                                                    rc_order.setAdapter(orderAdapter);
-                                                } else {
-                                                    Toast.makeText(getContext(), task.getException() + "", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                            }
-                        } else {
-                            Toast.makeText(getContext(), task.getException() + "", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        loadData();
 
         return root;
+    }
+    public void loadData() {
+        firestore.collection("orders").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    //Thành công
+                    for (DocumentSnapshot document : task.getResult()) {
+                        //Get information
+                        String name = (String) document.get("name");
+                        String phone = (String) document.get("phone");
+                        String email = (String) document.get("email");
+                        String address = (String) document.get("address");
+                        String date = (String) document.get("date");
+                        String status = (String) document.get("status");
+                        int total = Integer.parseInt(document.get("total").toString());
+                        //Get order detail
+                        document.getReference().collection("order_detail").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    productList = new ArrayList<>();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        productList.add(document.toObject(OrderProductModel.class));
+                                    }
+                                    // Tạo đối tượng OrderModel và thêm vào danh sách list
+                                    OrderModel orderModel = new OrderModel(name, phone, email,
+                                            address, date, total, status, productList);
+                                    list.add(orderModel);
+
+                                    // Gán danh sách list cho OrderAdapter và hiển thị lên RecyclerView
+                                    orderAdapter = new OrderAdapter(getContext(), list);
+                                    rc_order.setAdapter(orderAdapter);
+                                } else {
+                                    Toast.makeText(getContext(), task.getException() + "", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Toast.makeText(getContext(), task.getException() + " :Lỗi", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 }

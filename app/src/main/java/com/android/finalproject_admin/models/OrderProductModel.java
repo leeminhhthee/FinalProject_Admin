@@ -1,6 +1,8 @@
 package com.android.finalproject_admin.models;
 
-public class OrderProductModel {
+import java.io.Serializable;
+
+public class OrderProductModel implements Serializable {
     String proName;
     String proImg;
     int proPrice;

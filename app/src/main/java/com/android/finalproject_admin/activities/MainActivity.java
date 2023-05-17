@@ -1,5 +1,8 @@
 package com.android.finalproject_admin.activities;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -10,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,7 +22,10 @@ import android.widget.Toast;
 import com.android.finalproject_admin.R;
 import com.android.finalproject_admin.fragments.OrderFragment;
 import com.android.finalproject_admin.fragments.ProductFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerlayout;
@@ -35,6 +42,36 @@ public class MainActivity extends AppCompatActivity {
 
         homeFragment = new ProductFragment();
         loadFragment(homeFragment);
+
+        //Get token
+        /* FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        // Log and toast
+                        Log.d("tokenmessaging", token);
+                    }
+                });
+
+        //Dang ki nhan thong bao
+        FirebaseMessaging.getInstance().subscribeToTopic("admin_app")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Subscribed to admin_app topic");
+                        } else {
+                            Log.w(TAG, "Subscription to admin_app topic failed", task.getException());
+                        }
+                    }
+                }); */
+
     }
 
     private void initView() {

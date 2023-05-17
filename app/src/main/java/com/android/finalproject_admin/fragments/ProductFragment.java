@@ -145,6 +145,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.OnItemLo
                             if(productModelList != null){
                                 productModelList.clear();
                             }
+//                            Toast.makeText(getContext(), task.getResult().getDocuments().size()+"", Toast.LENGTH_SHORT).show();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ProductModel suggestProductModel = document.toObject(ProductModel.class);
                                 productModelList.add(suggestProductModel);

@@ -1,6 +1,7 @@
 package com.android.finalproject_admin.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.finalproject_admin.R;
+import com.android.finalproject_admin.activities.ShowOrderActivity;
 import com.android.finalproject_admin.models.OrderModel;
 
 import java.util.List;
@@ -36,10 +38,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderModel order = array.get(position);
-        holder.idOrder.setText("Order of #"+order.getInformationModel().getName());
-        holder.status.setText(order.getInformationModel().getStatus()+"");
-        holder.created_at.setText("Order at " + order.getInformationModel().getDate());
-
+        holder.idOrder.setText("Order of #"+order.getName());
+        holder.status.setText(order.getStatus()+"");
+        holder.created_at.setText("Order at " + order.getDate());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 holder.rc_history_detail.getContext(),
                 LinearLayoutManager.VERTICAL,
@@ -52,6 +53,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.rc_history_detail.setLayoutManager(linearLayoutManager);
         holder.rc_history_detail.setAdapter(detailAdapter);
         holder.rc_history_detail.setRecycledViewPool(viewPool);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ShowOrderActivity.class);
+                intent.putExtra("detailed", order);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
 
