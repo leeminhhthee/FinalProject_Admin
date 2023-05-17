@@ -54,7 +54,7 @@ public class AddProductActivity extends AppCompatActivity {
     int edit;
     boolean flag = false;
     String str_hinhanh = "";
-    String product_edit_name = "";
+    String product_edit_id = "";
 
     FirebaseFirestore firestore;
     FirebaseStorage storage;
@@ -66,7 +66,7 @@ public class AddProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_product);
 
         edit = getIntent().getIntExtra("isEdit", 0);
-        product_edit_name = getIntent().getStringExtra("product_name");
+        product_edit_id = getIntent().getStringExtra("product_id");
 
         initView();
         ActionToolbar();
@@ -129,7 +129,7 @@ public class AddProductActivity extends AppCompatActivity {
 
             //get data into edit form
             CollectionReference productsRef = firestore.collection("AllProducts");
-            Query query = productsRef.whereEqualTo("name", product_edit_name);
+            Query query = productsRef.whereEqualTo("id", product_edit_id);
             query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -154,7 +154,7 @@ public class AddProductActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     CollectionReference productsRef = firestore.collection("AllProducts");
-                    Query query = productsRef.whereEqualTo("name", product_edit_name);
+                    Query query = productsRef.whereEqualTo("id", product_edit_id);
                     query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -255,18 +255,21 @@ public class AddProductActivity extends AppCompatActivity {
         }
         else {
             // Add a new document with a generated id.
+            final String docId;
+            docId = firestore.collection("AllProducts").document().getId();
             Map<String, Object> data = new HashMap<>();
             data.put("name", str_ten);
             data.put("price", Integer.parseInt(str_gia));
             data.put("description", str_mota);
             data.put("img_url", str_hinhanh);
             data.put("pro_brand", brand);
+            data.put("id", docId);
 
             firestore.collection("AllProducts")
-                    .add(data)
-                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    .document(docId).set(data)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                        public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(AddProductActivity.this, "Added to database successful!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(AddProductActivity.this, MainActivity.class));
                             finish();

@@ -48,7 +48,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView item_img;
-        TextView item_name, item_qty, item_price;
+        TextView item_name, item_qty, item_price    ;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

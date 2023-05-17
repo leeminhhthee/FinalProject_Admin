@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 public class ShowOrderActivity extends AppCompatActivity {
     Toolbar toolbar;
-    TextView name, total, phone, address, email, date, qtyPro;
+    TextView name, total, phone, address, email, date, qtyPro, id;
     //Order
     OrderModel orderModel = null;
     int qty = 0;
@@ -35,6 +35,7 @@ public class ShowOrderActivity extends AppCompatActivity {
 
         if(orderModel != null){
             name.setText(orderModel.getName());
+            id.setText(orderModel.getId());
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
             total.setText(decimalFormat.format(orderModel.getTotal()) + " VND");
             phone.setText(orderModel.getPhone());
@@ -49,6 +50,7 @@ public class ShowOrderActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        id = findViewById(R.id.textId);
         name = findViewById(R.id.textName);
         total = findViewById(R.id.textTotal);
         phone = findViewById(R.id.textPhone);

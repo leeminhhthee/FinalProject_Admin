@@ -43,6 +43,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.OnItemLo
     List<ProductModel> productModelList;
     ImageView add;
     String proSelect;
+    String proSelectId;
 
     FirebaseFirestore db;
     FirebaseUser user;
@@ -91,13 +92,13 @@ public class ProductFragment extends Fragment implements ProductAdapter.OnItemLo
                 // Handle edit action
                 Intent intent = new Intent(getContext(), AddProductActivity.class);
                 intent.putExtra("isEdit", 1);
-                intent.putExtra("product_name", proSelect);
+                intent.putExtra("product_id", proSelectId);
                 startActivity(intent);
                 return true;
             case R.id.menu_delete:
                 // Handle delete action
                 CollectionReference productsRef = db.collection("AllProducts");
-                Query query = productsRef.whereEqualTo("name", proSelect);
+                Query query = productsRef.whereEqualTo("id", proSelectId);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Warning: ");
@@ -155,6 +156,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.OnItemLo
                             productAdapter.setOnItemClickListener(new ProductAdapter.OnItemLongClickListener() {
                                 @Override
                                 public void onItemLongClick(ProductModel product) {
+                                    proSelectId = product.getId();
                                     proSelect = product.getName();
                                 }
                             });

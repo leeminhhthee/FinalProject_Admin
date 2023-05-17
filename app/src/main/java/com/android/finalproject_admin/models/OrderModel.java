@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class OrderModel implements Serializable {
+    String id;
     String name;
     String phone;
     String email;
@@ -16,7 +17,8 @@ public class OrderModel implements Serializable {
     public OrderModel() {
     }
 
-    public OrderModel(String name, String phone, String email, String address, String date, int total, String status, List<OrderProductModel> products) {
+    public OrderModel(String id, String name, String phone, String email, String address, String date, int total, String status, List<OrderProductModel> products) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -25,6 +27,14 @@ public class OrderModel implements Serializable {
         this.total = total;
         this.status = status;
         this.products = products;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

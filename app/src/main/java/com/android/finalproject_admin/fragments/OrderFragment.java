@@ -17,19 +17,14 @@ import android.widget.Toast;
 
 import com.android.finalproject_admin.R;
 import com.android.finalproject_admin.adapters.OrderAdapter;
-import com.android.finalproject_admin.adapters.ProductAdapter;
-import com.android.finalproject_admin.models.OrderInformationModel;
 import com.android.finalproject_admin.models.OrderModel;
 import com.android.finalproject_admin.models.OrderProductModel;
-import com.android.finalproject_admin.models.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.model.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +69,7 @@ public class OrderFragment extends Fragment {
                     //Thành công
                     for (DocumentSnapshot document : task.getResult()) {
                         //Get information
+                        String id = document.getId();
                         String name = (String) document.get("name");
                         String phone = (String) document.get("phone");
                         String email = (String) document.get("email");
@@ -91,7 +87,7 @@ public class OrderFragment extends Fragment {
                                         productList.add(document.toObject(OrderProductModel.class));
                                     }
                                     // Tạo đối tượng OrderModel và thêm vào danh sách list
-                                    OrderModel orderModel = new OrderModel(name, phone, email,
+                                    OrderModel orderModel = new OrderModel(id, name, phone, email,
                                             address, date, total, status, productList);
                                     list.add(orderModel);
 

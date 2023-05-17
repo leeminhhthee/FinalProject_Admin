@@ -3,6 +3,7 @@ package com.android.finalproject_admin.models;
 import java.io.Serializable;
 
 public class ProductModel implements Serializable {
+    String id;
     String description;
     String name;
     int price;
@@ -11,11 +12,20 @@ public class ProductModel implements Serializable {
     public ProductModel() {
     }
 
-    public ProductModel(String description, String name, int price, String img_url) {
+    public ProductModel(String id, String description, String name, int price, String img_url) {
+        this.id = id;
         this.description = description;
         this.name = name;
         this.price = price;
         this.img_url = img_url;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {
