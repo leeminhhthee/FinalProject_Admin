@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.finalproject_admin.R;
@@ -37,6 +38,8 @@ import java.util.List;
 
 public class ProductFragment extends Fragment implements ProductAdapter.OnItemLongClickListener {
     View root;
+
+    LinearLayout progressbar;
     RecyclerView rc_product;
     //Brand home recyclerview
     ProductAdapter productAdapter;
@@ -70,6 +73,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.OnItemLo
     }
 
     public void initView(){
+        progressbar = root.findViewById(R.id.progressbar);
         rc_product = root.findViewById(R.id.rc_product);
         rc_product.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         productModelList = new ArrayList<>();
@@ -152,6 +156,8 @@ public class ProductFragment extends Fragment implements ProductAdapter.OnItemLo
                                 productModelList.add(suggestProductModel);
                                 productAdapter.notifyDataSetChanged();
                             }
+
+                            progressbar.setVisibility(View.GONE);
 
                             productAdapter.setOnItemClickListener(new ProductAdapter.OnItemLongClickListener() {
                                 @Override

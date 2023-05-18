@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.finalproject_admin.R;
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -32,6 +34,7 @@ import java.util.List;
 public class OrderFragment extends Fragment {
     View root;
 
+    LinearLayout progressbar;
     RecyclerView rc_order;
     FirebaseFirestore firestore;
     List<OrderProductModel> productList;
@@ -49,6 +52,7 @@ public class OrderFragment extends Fragment {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_order, container, false);
 
+        progressbar = root.findViewById(R.id.progressbar_order);
         firestore = FirebaseFirestore.getInstance();
 
         list = new ArrayList<>();
@@ -62,7 +66,8 @@ public class OrderFragment extends Fragment {
         return root;
     }
     public void loadData() {
-        firestore.collection("orders").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firestore.collection("orders").orderBy("date", Query.Direction.DESCENDING)
+            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -94,6 +99,8 @@ public class OrderFragment extends Fragment {
                                     // Gán danh sách list cho OrderAdapter và hiển thị lên RecyclerView
                                     orderAdapter = new OrderAdapter(getContext(), list);
                                     rc_order.setAdapter(orderAdapter);
+
+                                    progressbar.setVisibility(View.GONE);
                                 } else {
                                     Toast.makeText(getContext(), task.getException() + "", Toast.LENGTH_SHORT).show();
                                 }

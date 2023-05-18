@@ -70,6 +70,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         } else if(order.getStatus().equals("Đơn hàng đang được xử lí")) {
             holder.status.setTextColor(Color.parseColor("#FF1100"));
             holder.status.setText(order.getStatus());
+        } else {
+            holder.status.setText(order.getStatus());
         }
 
         holder.created_at.setText("Order at " + order.getDate());

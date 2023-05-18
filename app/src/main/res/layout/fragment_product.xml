@@ -25,6 +25,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <LinearLayout
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/editSearch"
+        app:layout_constraintStart_toStartOf="@+id/editSearch"
+        app:layout_constraintTop_toBottomOf="@+id/editSearch">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/white"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/purple_500"
+            android:max="100" />
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/img_add"
         android:layout_width="60dp"

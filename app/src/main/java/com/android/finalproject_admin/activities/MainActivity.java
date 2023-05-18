@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.android.finalproject_admin.R;
 import com.android.finalproject_admin.fragments.OrderFragment;
 import com.android.finalproject_admin.fragments.ProductFragment;
+import com.android.finalproject_admin.fragments.StatisticsFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,8 +31,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerlayout;
     ImageView menu;
-    LinearLayout home, order, logout;
-    Fragment homeFragment, orderFragment;
+    LinearLayout home, order, logout, statistic;
+    Fragment homeFragment, orderFragment, statisticsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         home = findViewById(R.id.homePro);
         order = findViewById(R.id.order);
+        statistic = findViewById(R.id.statistic);
         logout = findViewById(R.id.logout);
 
         menu.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +102,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 orderFragment = new OrderFragment();
                 loadFragment(orderFragment);
+                closeDrawer(drawerlayout);
+            }
+        });
+        statistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                statisticsFragment = new StatisticsFragment();
+                loadFragment(statisticsFragment);
                 closeDrawer(drawerlayout);
             }
         });
